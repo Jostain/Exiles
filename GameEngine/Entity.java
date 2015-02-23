@@ -2,6 +2,9 @@ package GameEngine;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import battleMechanics.Attack;
+import battleMechanics.Body;
 import Renderer.GameField;
 
 public class Entity implements IEntity {
@@ -95,10 +98,9 @@ public class Entity implements IEntity {
 	}
 
 	@Override
-	public void attack(int Accuracy, int attakccType, int damage,String s, IEntity attacker) {
-		target = attacker;
-		System.out.println(target.getName() + " attacks " + name + " for "
-				+ damage + " damage!");
+	public void attack(Attack a) {
+		target = a.getAttacker();
+		
 	}
 
 	@Override
@@ -174,7 +176,7 @@ public class Entity implements IEntity {
 					|| target.getX() - 1 == x && target.getY() == y
 					|| target.getX() == x && target.getY() == y + 1
 					|| target.getX() == x && target.getY() == y - 1) {
-				target.attack(100,0,5,null, this);
+				target.attack(new Attack());
 				actionPoints = actionPoints - speed;
 				grid.getGraphics().CenterOnCoordinate(x - 16, y - 8);
 				for (IEntity e : grid.getEntities()) {

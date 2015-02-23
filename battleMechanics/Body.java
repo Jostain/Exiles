@@ -1,4 +1,4 @@
-package GameEngine;
+package battleMechanics;
 
 import java.util.ArrayList;
 
@@ -22,8 +22,8 @@ public class Body {
 		return null;
 		
 	}
-	public void attack(int accuracy,int attackType, int force, String targetPart) {
-		soul.attack(accuracy,attackType, force, targetPart);
+	public void attackBody(Attack a) {
+		soul.attackBodyPart(a);
 		
 	}
 }

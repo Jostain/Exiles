@@ -1,5 +1,8 @@
 package GameEngine;
 
+import battleMechanics.Attack;
+import battleMechanics.Body;
+
 public interface IEntity {
 	int getSprite();
 	void setXY(int x, int y);
@@ -19,6 +22,6 @@ public interface IEntity {
 	public void endTurn();
 	public void notOnTurn();
 	public Body getBody();
-	void attack(int accuracy,int attackType, int force, String targetPart, IEntity attacker);
+	void attack(Attack a);
 	
 }
