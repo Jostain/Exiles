@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class BodyPart {
 	private String name;
-	private Organ[] mats;
-	private Wound[] wounds;
+	private ArrayList<Organ> organs = new ArrayList<>();
+	private ArrayList<Wound> wounds = new ArrayList<>();
 	private String clothes = null;
 	private String armor = null;
 	private int importance;
@@ -14,7 +14,10 @@ public class BodyPart {
 
 	public BodyPart(String name, Organ[] organs, int importance) {
 		this.name = name;
-		this.mats = organs;
+		for (Organ o : organs) {
+			this.organs.add(o);
+		}
+
 		this.setImportance(importance);
 
 	}
@@ -85,9 +88,37 @@ public class BodyPart {
 	}
 
 	public void attackBodyPart(Attack a) {
-		double realForce = a.getForce() * a.getAccuracy();
-		
+		if (severed == false) {
+			if (a.getAttackType() == Attack.AttackType.slash) {
+				int i = organs.size()-1;
+				Organ o = null;
+				if (i <= 0) {
+					System.out.println("Can not attack Incorporeal parts");
+				} else {
+					while (a.getForce() > 0 && a.getDepth() > 0 && severed == false) {
+						
+						if (i == -1)
+						{
+							System.out.println("body part severed!");
+							sever();
+						}
+						else
+						{
+							o = organs.get(i);
+						}
+						if (o.getResistance() < a.getForce()) {
+							a.setDepth(a.getDepth() - o.getDepth());
+							a.setForce(a.getForce() - o.getResistance());
+							wounds.add(new Wound(o.getBloodPressure()));
+							System.out.println("Attack goes trough "+o+"!");
+							i--;
+						}
 
+					}
+				}
+
+			}
+		}
 	}
 
 	public int getImportance() {
@@ -97,5 +128,5 @@ public class BodyPart {
 	public void setImportance(int importance) {
 		this.importance = importance;
 	}
-	
+
 }

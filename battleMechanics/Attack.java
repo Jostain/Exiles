@@ -3,12 +3,23 @@ package battleMechanics;
 import GameEngine.IEntity;
 
 public class Attack {
+	private String targetBodyPart;
 	private double accuracy;
 	private double force;
 	private double depth;
 	private double sharpness;
 	private double weight;
-	public enum attackType{slash,stab,strike}
+	private AttackType attackType;
+	public enum AttackType{slash,stab,strike}
+	public Attack(AttackType attackType, double force, double depth, double sharpness, double weight,String bodyPart)
+	{
+		this.attackType = attackType;
+		this.force = force;
+		this.depth = depth;
+		this.sharpness = sharpness;
+		this.weight = weight;
+		this.setTargetBodyPart(bodyPart);
+	}
 	public double getAccuracy() {
 		return accuracy;
 	}
@@ -42,5 +53,17 @@ public class Attack {
 	public IEntity getAttacker() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public AttackType getAttackType() {
+		return attackType;
+	}
+	public void setAttackType(AttackType attackType) {
+		this.attackType = attackType;
+	}
+	public String getTargetBodyPart() {
+		return targetBodyPart;
+	}
+	public void setTargetBodyPart(String targetBodyPart) {
+		this.targetBodyPart = targetBodyPart;
 	}
 }

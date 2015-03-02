@@ -1,7 +1,7 @@
 package battleMechanics;
 
 public enum Mat {
-	skin, scale, bone, skull, exoskeleton, brain, flesh, fat, muscle, airway, heart, intestines;
+	skin, scale, bone, skull, exoskeleton, brain, flesh, fat, muscle, airway, heart, intestines, tendon;
 
 	public static double resistance(Mat mat) {
 		switch (mat) {
