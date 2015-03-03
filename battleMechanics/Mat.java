@@ -1,7 +1,7 @@
 package battleMechanics;
 
 public enum Mat {
-	skin, scale, bone, skull, exoskeleton, brain, flesh, fat, muscle, airway, heart, intestines, tendon;
+	skin, scale, bone, skull, exoskeleton, brain, flesh, fat, muscle, airway, heart, intestines, tendon, wind_pipe, iron, steel, bronze,;
 
 	public static double resistance(Mat mat) {
 		switch (mat) {
@@ -10,25 +10,31 @@ public enum Mat {
 		case scale:
 			return 100;
 		case bone:
-			return 5;
+			return 30;
 		case skull:
-			return 5;
+			return 30;
 		case exoskeleton:
-			return 5;
+			return 30;
 		case brain:
-			return 5;
+			return 1;
 		case flesh:
-			return 5;
+			return 10;
 		case fat:
 			return 5;
 		case muscle:
-			return 5;
+			return 10;
 		case airway:
-			return 5;
+			return 2;
 		case heart:
-			return 5;
+			return 2;
 		case intestines:
-			return 5;
+			return 1;
+		case iron:
+			return 50;
+		case steel:
+			return 100;
+		case bronze:
+			return 70;
 
 		}
 		return 0;

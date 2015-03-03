@@ -2,18 +2,23 @@ package battleMechanics;
 
 public class Organ {
 	private String name;
-	private double resistance;
+	private Mat mat;
 	private double depth;
 	private double bloodPressure;
-	public Organ(double resistance, double depth, double bloodPressure,String name)
+	private boolean vital;
+	public Organ(boolean vital, Mat mat, double depth, double bloodPressure,String name)
 	{
+	this.setVital(vital);
 	this.name = name;	
+	this.mat = mat;
+	this.depth = depth;
+	this.bloodPressure = bloodPressure;
 	}
 	public double getResistance() {
-		return resistance;
+		return Mat.resistance(mat);
 	}
-	public void setResistance(int resistance) {
-		this.resistance = resistance;
+	public void setMat(Mat mat) {
+		this.mat = mat;
 	}
 	public double getDepth() {
 		return depth;
@@ -31,6 +36,12 @@ public class Organ {
 	{
 		return name;
 		
+	}
+	public boolean isVital() {
+		return vital;
+	}
+	public void setVital(boolean vital) {
+		this.vital = vital;
 	}
 	
 

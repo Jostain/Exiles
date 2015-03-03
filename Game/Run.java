@@ -16,6 +16,7 @@ import battleMechanics.Attack;
 import battleMechanics.Attack.AttackType;
 import battleMechanics.Body;
 import battleMechanics.BodyPart;
+import battleMechanics.Mat;
 import battleMechanics.Organ;
 import GameEngine.*;
 import Renderer.GameField;
@@ -43,7 +44,7 @@ public class Run extends JFrame {
 		this.requestFocus();
 		player.setSprite(1);
 		addKeyListener(kevin);
-		Body body = new Body();
+		Body body = new Body("Character");
 		
 		
 		grid.setWalkable(10, 10, false);
@@ -107,33 +108,46 @@ public class Run extends JFrame {
 
 
 	public static void main(String[] args) {
-		Body body = new Body();
-		Organ skin = new Organ(30,25,5,"skin");
-		Organ fat = new Organ(30,25,5,"fat");
-		Organ muscle = new Organ(30,25,5,"muscle");
-		Organ bone = new Organ(30,25,5,"bone");
-		Organ brain = new Organ(30,25,5,"brain");
-		body.growBodypart(new BodyPart("head",new Organ[]{brain,bone,skin}, 0), "soul");
-		body.growBodypart(new BodyPart("neck",new Organ[]{bone,muscle,skin}, 0), "head");
-		body.growBodypart(new BodyPart("torso",new Organ[]{bone,muscle,fat,skin}, 0), "neck");
-		body.growBodypart(new BodyPart("left_shoulder",new Organ[]{bone,muscle,fat,skin}, 0), "torso");
-		body.growBodypart(new BodyPart("left_upper_arm",new Organ[]{bone,muscle,fat,skin}, 0), "left_shoulder");
-		body.growBodypart(new BodyPart("left_lower_arm",new Organ[]{bone,muscle,fat,skin}, 0), "left_upper_arm");
-		body.growBodypart(new BodyPart("left_hand",new Organ[]{bone,muscle,fat,skin}, 0), "left_lower_arm");
-		body.growBodypart(new BodyPart("right_shoulder",new Organ[]{bone,muscle,fat,skin}, 0), "torso");
-		body.growBodypart(new BodyPart("right_upper_arm",new Organ[]{bone,muscle,fat,skin}, 0), "right_shoulder");
-		body.growBodypart(new BodyPart("right_lower_arm",new Organ[]{bone,muscle,fat,skin}, 0), "right_upper_arm");
-		body.growBodypart(new BodyPart("right_hand",new Organ[]{bone,muscle,fat,skin}, 0), "right_lower_arm");
-		body.growBodypart(new BodyPart("left_tigh",new Organ[]{bone,muscle,fat,skin}, 0), "torso");
-		body.growBodypart(new BodyPart("left_knee",new Organ[]{bone,muscle,fat,skin}, 0), "left_tigh");
-		body.growBodypart(new BodyPart("left_shin",new Organ[]{bone,muscle,fat,skin}, 0), "left_knee");
-		body.growBodypart(new BodyPart("left_fot",new Organ[]{bone,muscle,fat,skin}, 0), "left_shin");
-		body.growBodypart(new BodyPart("right_tigh",new Organ[]{bone,muscle,fat,skin}, 0), "torso");
-		body.growBodypart(new BodyPart("right_knee",new Organ[]{bone,muscle,fat,skin}, 0), "right_tigh");
-		body.growBodypart(new BodyPart("right_shin",new Organ[]{bone,muscle,fat,skin}, 0), "right_knee");
-		body.growBodypart(new BodyPart("right_fot",new Organ[]{bone,muscle,fat,skin}, 0), "right_shin");
-		
-		body.attackBody(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"left_tigh"));
+		Body body = new Body("Character");
+		Organ skin = new Organ(false, Mat.skin, 0.5, 2, "skin");
+		Organ fat = new Organ(false, Mat.fat, 2.0, 2, "fat");
+		Organ muscle = new Organ(false, Mat.muscle, 10, 2, "muscle");
+		Organ bone = new Organ(false, Mat.bone, 5, 10, "bone");
+		Organ wind_pipe = new Organ(true, Mat.wind_pipe, 5, 10, "windpipe");
+		Organ brain = new Organ(true,Mat.brain, 5, 5,"brain");
+		body.growBodypart(new BodyPart("head",new Organ[]{brain,bone,skin}, 0, false), "soul");
+		body.growBodypart(new BodyPart("neck",new Organ[]{bone,muscle,skin}, 0, false), "head");
+		body.growBodypart(new BodyPart("torso",new Organ[]{bone,wind_pipe,muscle,fat,skin}, 0, false), "neck");
+		body.growBodypart(new BodyPart("left_shoulder",new Organ[]{bone,muscle,fat,skin}, 0, false), "torso");
+		body.growBodypart(new BodyPart("left_upper_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_shoulder");
+		body.growBodypart(new BodyPart("left_lower_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_upper_arm");
+		body.growBodypart(new BodyPart("left_hand",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_lower_arm");
+		body.growBodypart(new BodyPart("right_shoulder",new Organ[]{bone,muscle,fat,skin}, 0, false), "torso");
+		body.growBodypart(new BodyPart("right_upper_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_shoulder");
+		body.growBodypart(new BodyPart("right_lower_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_upper_arm");
+		body.growBodypart(new BodyPart("right_hand",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_lower_arm");
+		body.growBodypart(new BodyPart("left_tigh",new Organ[]{bone,muscle,fat,skin}, 0, false), "torso");
+		body.growBodypart(new BodyPart("left_knee",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_tigh");
+		body.growBodypart(new BodyPart("left_shin",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_knee");
+		body.growBodypart(new BodyPart("left_fot",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_shin");
+		body.growBodypart(new BodyPart("right_tigh",new Organ[]{bone,muscle,fat,skin}, 0, false), "torso");
+		body.growBodypart(new BodyPart("right_knee",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_tigh");
+		body.growBodypart(new BodyPart("right_shin",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_knee");
+		body.growBodypart(new BodyPart("right_fot",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_shin");
+		body.armor("left_shoulder", Mat.steel);
+		body.attackBody(new Attack(AttackType.slash, 200.0, 100.0, 100.0, 100.0,"left_shoulder"));
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		body.attackBody(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_knee"));
+		System.out.println("");
+		System.out.println("");
+		System.out.println(body.pollBloodLoss());
+		System.out.println("Alive = "+body.getAlive());
+		body.simulateBody();
+		body.simulateBody();
+		body.simulateBody();
+		body.simulateBody();
                                   //attackType,      force, depth, sharpness, weight
 		
 		//SwingUtilities.invokeLater(new Runnable(){
