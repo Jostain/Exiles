@@ -10,6 +10,8 @@ public class Body {
 	private double bloodLimitAlive = 50.0;
 	private boolean concious = true;
 	private boolean alive = true;
+	private boolean prone = false;
+	private ArrayList<BodyPart> requiredForMobility = new ArrayList<>();
 	public Body(String owner)
 	{
 		this.owner=owner;
@@ -26,10 +28,14 @@ public class Body {
 	}
 	
 	public void growBodypart(BodyPart part, String from)
-	{		
+	{	
+		if(part.isRFM())
+		{
+			requiredForMobility.add(part);
+		}
 		part.setBody(this);
 		soul.getBodyPart(from).growBodyPart(part);
-		//System.out.println(from+" grew a "+part.getName()+"!");
+		System.out.println(from+" grew a "+part.getName()+"!");
 	}
 	public void severBodyPart(String name)
 	{
@@ -37,12 +43,12 @@ public class Body {
 	}
 	public String toString()
 	{
-		return null;
+		return owner+"'s "+"body";
 		
 	}
 	public void attackBody(Attack a) {
-		soul.getBodyPart(a.getTargetBodyPart()).attackBodyPart(a);;
-		
+		System.out.println(a.getTargetBodyPart());
+		soul.getBodyPart(a.getTargetBodyPart()).attackBodyPart(a);
 	}
 	public double getBlood() {
 		return blood;
@@ -80,20 +86,38 @@ public class Body {
 	}
 	public void simulateBody()
 	{
-		if (alive = true){
+		if (getAlive()){
 			blood =blood- soul.pollBloodLoss();
-			if (blood < bloodLimitConciousness)
+			if (blood < bloodLimitConciousness && concious != false)
 			{
 				System.out.println(owner+" has lost conciousness From blood loss!");
 				concious = false;
 			}
 			if (blood < bloodLimitAlive)
 			{
-				alive = false;
+				this.setAlive(false);
 				System.out.println(owner+" has died From their injuries!");
 			}
+			for(BodyPart bp:requiredForMobility)
+			{
+				if(bp.isRFM() && (bp.isUsable()||bp.isSevered())&& prone!=true)
+				{
+					setProne(true);
+					System.out.println(owner+" has fallen prone due to their injuries");
+				}
+			}
+		}
+		else
+		{
+			
 		}
 		
+	}
+	public boolean isProne() {
+		return prone;
+	}
+	public void setProne(boolean prone) {
+		this.prone = prone;
 	}
 
 }

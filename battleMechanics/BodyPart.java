@@ -11,13 +11,13 @@ public class BodyPart {
 	private Mat armor = null;
 	private int importance;
 	private boolean severed = false;
-	private boolean mobile;
+	private boolean usable = true;
 	private boolean requiredForMobility;
 	private ArrayList<BodyPart> bodyParts = new ArrayList<BodyPart>();
 
 	public BodyPart(String name, Organ[] organs, int importance, boolean RFM) {
 		this.name = name;
-		this.requiredForMobility = RFM;
+		this.setRFM(RFM);
 		for (Organ o : organs) {
 			this.organs.add(o);
 		}
@@ -27,16 +27,23 @@ public class BodyPart {
 	}
 
 	public BodyPart getBodyPart(String name) {
-		if (this.name == name) {
+		
+		if (this.name.equals(name)) {
+			System.out.println(this.name+" is the same as "+name);
 			return this;
 		} else {
+			System.out.println(bodyParts);
 			for (BodyPart p : bodyParts) {
+				System.out.print("checking "+p.getName());
 				BodyPart temp = p.getBodyPart(name);
+				
 				if (temp != null) {
 					return temp;
 				}
 			}
+			System.out.println("all bp in "+this.name+" have been checked");
 			return null;
+			
 
 		}
 
@@ -171,11 +178,24 @@ public class BodyPart {
 		this.body = body;
 	}
 
-	public boolean isMobile() {
-		return mobile;
+	public boolean isRFM() {
+		return requiredForMobility;
 	}
 
-	public void setMobile(boolean mobile) {
-		this.mobile = mobile;
+	public void setRFM(boolean requiredForMobility) {
+		this.requiredForMobility = requiredForMobility;
+	}
+
+	public boolean isUsable() {
+		return usable;
+	}
+
+	public void setUsable(boolean usable) {
+		this.usable = usable;
+	}
+
+	public String toString() {
+		return name;
+
 	}
 }

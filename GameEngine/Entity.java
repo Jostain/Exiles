@@ -5,6 +5,7 @@ import java.util.Random;
 
 import battleMechanics.Attack;
 import battleMechanics.Body;
+import battleMechanics.Attack.AttackType;
 import Renderer.GameField;
 
 public class Entity implements IEntity {
@@ -176,7 +177,7 @@ public class Entity implements IEntity {
 					|| target.getX() - 1 == x && target.getY() == y
 					|| target.getX() == x && target.getY() == y + 1
 					|| target.getX() == x && target.getY() == y - 1) {
-				target.attack(new Attack());
+				target.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_knee"));
 				actionPoints = actionPoints - speed;
 				grid.getGraphics().CenterOnCoordinate(x - 16, y - 8);
 				for (IEntity e : grid.getEntities()) {

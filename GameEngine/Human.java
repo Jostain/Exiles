@@ -7,6 +7,8 @@ import battleMechanics.Attack;
 import battleMechanics.Body;
 import battleMechanics.BodyPart;
 import battleMechanics.Mat;
+import battleMechanics.Organ;
+import battleMechanics.Attack.AttackType;
 import Renderer.GameField;
 
 public class Human implements IEntity {
@@ -22,16 +24,42 @@ public class Human implements IEntity {
 	IGrid grid;
 	private IEntity target;
 	private String name = "???";
-	private Body body = new Body();
+	private Body body;
 	private boolean attacking = false;
 
-	public Human(IGrid g, IEntity target, String name, boolean controllable,
-			int sprite) {
+	public Human(IGrid g, IEntity target, String name, boolean controllable,int sprite) {
+		body = new Body(name);
 		grid = g;
 		this.target = target;
 		this.name = name;
 		this.controllable = controllable;
 		this.sprite = sprite;
+		Body body = new Body("Character");
+		Organ skin = new Organ(false, Mat.skin, 0.5, 2, "skin");
+		Organ fat = new Organ(false, Mat.fat, 2.0, 2, "fat");
+		Organ muscle = new Organ(false, Mat.muscle, 10, 2, "muscle");
+		Organ bone = new Organ(false, Mat.bone, 5, 10, "bone");
+		Organ wind_pipe = new Organ(true, Mat.wind_pipe, 5, 10, "windpipe");
+		Organ brain = new Organ(true,Mat.brain, 5, 5,"brain");
+		body.growBodypart(new BodyPart("head",new Organ[]{brain,bone,skin}, 0, false), "soul");
+		body.growBodypart(new BodyPart("neck",new Organ[]{bone,muscle,skin}, 0, false), "head");
+		body.growBodypart(new BodyPart("torso",new Organ[]{bone,wind_pipe,muscle,fat,skin}, 0, false), "neck");
+		body.growBodypart(new BodyPart("left_shoulder",new Organ[]{bone,muscle,fat,skin}, 0, false), "torso");
+		body.growBodypart(new BodyPart("left_upper_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_shoulder");
+		body.growBodypart(new BodyPart("left_lower_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_upper_arm");
+		body.growBodypart(new BodyPart("left_hand",new Organ[]{bone,muscle,fat,skin}, 0, false), "left_lower_arm");
+		body.growBodypart(new BodyPart("right_shoulder",new Organ[]{bone,muscle,fat,skin}, 0, false), "torso");
+		body.growBodypart(new BodyPart("right_upper_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_shoulder");
+		body.growBodypart(new BodyPart("right_lower_arm",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_upper_arm");
+		body.growBodypart(new BodyPart("right_hand",new Organ[]{bone,muscle,fat,skin}, 0, false), "right_lower_arm");
+		body.growBodypart(new BodyPart("left_tigh",new Organ[]{bone,muscle,fat,skin}, 0, true), "torso");
+		body.growBodypart(new BodyPart("left_knee",new Organ[]{bone,muscle,fat,skin}, 0, true), "left_tigh");
+		body.growBodypart(new BodyPart("left_shin",new Organ[]{bone,muscle,fat,skin}, 0, true), "left_knee");
+		body.growBodypart(new BodyPart("left_fot",new Organ[]{bone,muscle,fat,skin}, 0, true), "left_shin");
+		body.growBodypart(new BodyPart("right_tigh",new Organ[]{bone,muscle,fat,skin}, 0, true), "torso");
+		body.growBodypart(new BodyPart("right_knee",new Organ[]{bone,muscle,fat,skin}, 0, true), "right_tigh");
+		body.growBodypart(new BodyPart("right_shin",new Organ[]{bone,muscle,fat,skin}, 0, true), "right_knee");
+		body.growBodypart(new BodyPart("right_fot",new Organ[]{bone,muscle,fat,skin}, 0, true), "right_shin");
 		
 
 	}
@@ -56,23 +84,23 @@ public class Human implements IEntity {
 				try {
 					if (key == 0) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 0).get(0);
-						e.attack(new Attack());
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
 						attacking = false;
 						actionPoints = actionPoints - speed;
 						actionPoints = actionPoints - speed;
 					} else if (key == 1) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 1).get(0);
-						e.attack(new Attack());
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
 						attacking = false;
 						actionPoints = actionPoints - speed;
 					} else if (key == 2) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 2).get(0);
-						e.attack(new Attack());
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
 						attacking = false;
 						actionPoints = actionPoints - speed;
 					} else if (key == 3) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 3).get(0);
-						e.attack(new Attack());
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
 						attacking = false;
 					}
 				} catch (NullPointerException|IndexOutOfBoundsException e)
@@ -216,7 +244,7 @@ public class Human implements IEntity {
 					|| target.getX() - 1 == x && target.getY() == y
 					|| target.getX() == x && target.getY() == y + 1
 					|| target.getX() == x && target.getY() == y - 1) {
-				target.attack(new Attack());
+				target.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
 				actionPoints = actionPoints - speed;
 				grid.getGraphics().CenterOnCoordinate(x - 16, y - 8);
 				for (IEntity e : grid.getEntities()) {

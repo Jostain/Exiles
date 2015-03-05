@@ -18,7 +18,9 @@ public class Attack {
 		this.depth = depth;
 		this.sharpness = sharpness;
 		this.weight = weight;
-		this.setTargetBodyPart(bodyPart);
+		this.targetBodyPart = bodyPart;
+		System.out.println(targetBodyPart);
+
 	}
 	public double getAccuracy() {
 		return accuracy;
