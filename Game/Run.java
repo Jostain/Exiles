@@ -1,5 +1,7 @@
 package Game;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -8,7 +10,10 @@ import java.util.ArrayList;
 
 import Renderer.*;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -22,19 +27,25 @@ import GameEngine.*;
 import Renderer.GameField;
 
 public class Run extends JFrame {
-	Grid grid = new Grid(45, 45);
-	IEntity player = new Human(grid, null, "Player", true, 1);
-	GameField world = new GameField(grid);
 	Announcer announcer = new Announcer();
+	Grid grid = new Grid(45, 45);
+	IEntity player = new Human(grid,announcer, null, "Player", true, 1);
+	GameField world = new GameField(grid);
+	
 	boolean attacking = false;
 	int currentActor = 0;
 	KeyListener kevin = new KeyListener();
 	int key = -1;
 	boolean gameOver = false;
+	JPanel overlay = new JPanel();
 
 	public Run() {
-		add(announcer);
-		add(world);
+		overlay.setLayout(new BorderLayout());
+		overlay.add(announcer, BorderLayout.SOUTH);
+		overlay.add(world, BorderLayout.NORTH); // add transparent panel first
+		
+		add(overlay);
+
 
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -43,7 +54,7 @@ public class Run extends JFrame {
 		this.requestFocus();
 		player.setSprite(1);
 		addKeyListener(kevin);
-		Body body = new Body("Character");
+		//Body body = new Body("Character");
 
 		grid.setWalkable(10, 10, false);
 		grid.setTileType(10, 10, 0);
@@ -53,11 +64,11 @@ public class Run extends JFrame {
 		System.out.println("");
 		System.out.println((grid.getPath(0, 0, 5, 5)));
 		System.out.println(grid.addEntity(1, 1, player));
-		System.out.println(grid.addEntity(21, 21, new Human(grid, player,
+		System.out.println(grid.addEntity(21, 21, new Human(grid,announcer, player,
 				"Enemy", false, 7)));
-		System.out.println(grid.addEntity(1, 1, new Human(grid, null, "Player",
+		System.out.println(grid.addEntity(1, 1, new Human(grid,announcer, null, "Player",
 				true, 1)));
-		System.out.println(grid.addEntity(25, 25, new Human(grid, player,
+		System.out.println(grid.addEntity(25, 25, new Human(grid,announcer, player,
 				"Enemy", false, 7)));
 		loop();
 	}

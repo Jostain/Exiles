@@ -1,9 +1,11 @@
 package battleMechanics;
 
+import java.awt.List;
 import java.util.ArrayList;
 
 public class Body {
 	private String owner;
+	private int numberOfBodyParts = 0;
 	private BodyPart soul = new BodyPart("soul",new Organ[]{},100, false);
 	private double blood = 100.0;
 	private double bloodLimitConciousness = 40.0;
@@ -35,7 +37,8 @@ public class Body {
 		}
 		part.setBody(this);
 		soul.getBodyPart(from).growBodyPart(part);
-		System.out.println(from+" grew a "+part.getName()+"!");
+		numberOfBodyParts ++;
+		System.out.println(numberOfBodyParts);
 	}
 	public void severBodyPart(String name)
 	{
@@ -46,9 +49,9 @@ public class Body {
 		return owner+"'s "+"body";
 		
 	}
-	public void attackBody(Attack a) {
+	public String attackBody(Attack a) {
 		System.out.println(a.getTargetBodyPart());
-		soul.getBodyPart(a.getTargetBodyPart()).attackBodyPart(a);
+		return soul.getBodyPart(a.getTargetBodyPart()).attackBodyPart(a);
 	}
 	public double getBlood() {
 		return blood;
@@ -90,20 +93,20 @@ public class Body {
 			blood =blood- soul.pollBloodLoss();
 			if (blood < bloodLimitConciousness && concious != false)
 			{
-				System.out.println(owner+" has lost conciousness From blood loss!");
+				//System.out.println(owner+" has lost conciousness From blood loss!");
 				concious = false;
 			}
 			if (blood < bloodLimitAlive)
 			{
 				this.setAlive(false);
-				System.out.println(owner+" has died From their injuries!");
+			//	System.out.println(owner+" has died From their injuries!");
 			}
 			for(BodyPart bp:requiredForMobility)
 			{
 				if(bp.isRFM() && (bp.isUsable()||bp.isSevered())&& prone!=true)
 				{
 					setProne(true);
-					System.out.println(owner+" has fallen prone due to their injuries");
+					//System.out.println(owner+" has fallen prone due to their injuries");
 				}
 			}
 		}
@@ -118,6 +121,12 @@ public class Body {
 	}
 	public void setProne(boolean prone) {
 		this.prone = prone;
+	}
+	
+	public ArrayList<String> getBodyParts()
+	{
+		return null;
+		
 	}
 
 }

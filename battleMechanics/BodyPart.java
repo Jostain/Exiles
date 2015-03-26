@@ -29,19 +29,19 @@ public class BodyPart {
 	public BodyPart getBodyPart(String name) {
 		
 		if (this.name.equals(name)) {
-			System.out.println(this.name+" is the same as "+name);
+			//System.out.println(this.name+" is the same as "+name);
 			return this;
 		} else {
-			System.out.println(bodyParts);
+			//System.out.println(bodyParts);
 			for (BodyPart p : bodyParts) {
-				System.out.print("checking "+p.getName());
+				//System.out.print("checking "+p.getName());
 				BodyPart temp = p.getBodyPart(name);
 				
 				if (temp != null) {
 					return temp;
 				}
 			}
-			System.out.println("all bp in "+this.name+" have been checked");
+			//System.out.println("all bp in "+this.name+" have been checked");
 			return null;
 			
 
@@ -75,7 +75,7 @@ public class BodyPart {
 		for (BodyPart p : bodyParts) {
 			p.sever();
 		}
-		System.out.println(name + " Lost!");
+		//System.out.println(name + " Lost!");
 
 	}
 
@@ -103,38 +103,40 @@ public class BodyPart {
 		this.armor = armor;
 	}
 
-	public void attackBodyPart(Attack a) {
+	public String attackBodyPart(Attack a) {
 		if (severed == false) {
 			if (a.getAttackType() == Attack.AttackType.slash) {
 				int i = organs.size() - 1;
 				Organ o = null;
 				if (i <= 0) {
-					System.out.println("Can not attack Incorporeal parts");
+					return "Can not attack Incorporeal parts";
 				} else {
 					if (armor != null) {
 						if (a.getForce() > Mat.resistance(armor)) {
 							a.setForce(a.getForce() - Mat.resistance(armor));
-							System.out.println("Attack goes trough " + armor
-									+ "armor!");
+							//System.out.println("Attack goes trough " + armor
+									//+ "armor!");
 						} else {
-							System.out.println("Attack bounces of the " + armor
-									+ " armor");
+							
 							a.setForce(0);
+							return "Attack bounces of the " + armor
+									+ " armor";
 						}
 					}
+					String s = "Attack goes trough ";
 					while (a.getForce() > 0 && a.getDepth() > 0
 							&& severed == false) {
 
 						if (i == -1) {
-							System.out.println(name + " severed!");
 							sever();
+							return name + " severed!";
 						} else {
 							o = organs.get(i);
 							if (o.getResistance() < a.getForce()) {
 								a.setDepth(a.getDepth() - o.getDepth());
 								a.setForce(a.getForce() - o.getResistance());
-								System.out.println("Attack goes trough " + o
-										+ "!");
+								s = s+o+"";
+										
 								wounds.add(new Wound(o.getBloodPressure()));
 
 								i--;
@@ -144,10 +146,12 @@ public class BodyPart {
 						}
 
 					}
+					return s;
 				}
 
 			}
 		}
+		return "Target bodypart is already severed";
 	}
 
 	public int getImportance() {

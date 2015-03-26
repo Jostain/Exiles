@@ -26,15 +26,17 @@ public class Human implements IEntity {
 	private String name = "???";
 	private Body body;
 	private boolean attacking = false;
+	private Announcer announcer;
 
-	public Human(IGrid g, IEntity target, String name, boolean controllable,int sprite) {
+	public Human(IGrid g,Announcer announcer, IEntity target, String name, boolean controllable,int sprite) {
+		this.announcer = announcer;
 		body = new Body(name);
 		grid = g;
 		this.target = target;
 		this.name = name;
 		this.controllable = controllable;
 		this.sprite = sprite;
-		Body body = new Body("Character");
+		body = new Body("Character");
 		Organ skin = new Organ(false, Mat.skin, 0.5, 2, "skin");
 		Organ fat = new Organ(false, Mat.fat, 2.0, 2, "fat");
 		Organ muscle = new Organ(false, Mat.muscle, 10, 2, "muscle");
@@ -84,23 +86,23 @@ public class Human implements IEntity {
 				try {
 					if (key == 0) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 0).get(0);
-						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_shoulder"));
 						attacking = false;
 						actionPoints = actionPoints - speed;
 						actionPoints = actionPoints - speed;
 					} else if (key == 1) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 1).get(0);
-						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_shoulder"));
 						attacking = false;
 						actionPoints = actionPoints - speed;
 					} else if (key == 2) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 2).get(0);
-						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_shoulder"));
 						attacking = false;
 						actionPoints = actionPoints - speed;
 					} else if (key == 3) {
 						IEntity e = grid.getEntitiesLookAhead(x, y, 3).get(0);
-						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
+						e.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_shoulder"));
 						attacking = false;
 					}
 				} catch (NullPointerException|IndexOutOfBoundsException e)
@@ -166,7 +168,8 @@ public class Human implements IEntity {
 	@Override
 	public void attack(Attack a) {
 		target = a.getAttacker();
-		body.attackBody(a);
+		String s = body.attackBody(a);
+		announcer.broadcast(sprite, 0, s);
 		//System.out.println(target.getName() + " attacks " + name + " for "
 				//+ force + " damage!");
 	}
@@ -244,7 +247,7 @@ public class Human implements IEntity {
 					|| target.getX() - 1 == x && target.getY() == y
 					|| target.getX() == x && target.getY() == y + 1
 					|| target.getX() == x && target.getY() == y - 1) {
-				target.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"head"));
+				target.attack(new Attack(AttackType.slash, 100.0, 100.0, 100.0, 100.0,"right_knee"));
 				actionPoints = actionPoints - speed;
 				grid.getGraphics().CenterOnCoordinate(x - 16, y - 8);
 				for (IEntity e : grid.getEntities()) {
